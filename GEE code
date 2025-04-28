@@ -1,0 +1,44 @@
+
+var tehranGeometry = ee.Geometry.Polygon([
+  [
+    [51.2158203125, 35.7936099733036],
+    [51.2158203125, 35.02999636902566],
+    [52.381591796875, 35.02999636902566],
+    [52.381591796875, 35.7936099733036]
+  ]
+]);
+var before_covid_start=('2019-04-01');
+var before_covid_end=('2019-04-30');
+var after_covid_start=('2021-01-01');
+var after_covid_end=('2021-12-30');
+
+var SO2_concentration=ee.ImageCollection('COPERNICUS/S5P/OFFL/L3_SO2')
+        .filterBounds(tehranGeometry)
+        .select('SO2_column_number_density');
+
+var before_SO2 = SO2_concentration.filterDate(before_covid_start,before_covid_end);
+var after_SO2 = SO2_concentration.filterDate(after_covid_start, after_covid_end);
+
+var beforeSO2=before_SO2.median().clip(tehranGeometry);
+var afterSO2=after_SO2.median().clip(tehranGeometry);
+
+Map.addLayer(beforeSO2,{
+  max:0.0005,
+  min:-0.0005,
+  palette: ['black', 'purple', 'blue', 'green','yellow','orange','red']}, 'SO2 Total - 2019', true,0.6);
+
+Map.addLayer(afterSO2,{
+  max:0.5,
+  min:0,
+  palette: ['black', 'purple', 'blue', 'green','yellow','orange','red']}, 'SO2 Total - 2020', true,0.6);
+  
+  print(ui.Chart.image.series(before_SO2, tehranGeometry, ee.Reducer.mean(), 100));
+
+Export.image.toDrive({
+  image: afterSO2,
+  description: 'NDVI1',
+  region: tehranGeometry,
+  folder: 'earthengine',
+  scale: 10, 
+  maxPixels:1e10
+})
