@@ -146,4 +146,5 @@ A **chart** that shows the **mean SO2 concentration** for **Tehran** before COVI
 
 ---
 ![ee-chart (3)](https://github.com/user-attachments/assets/c8d61a25-5450-4231-824c-2f4eae2b83db)
+![Snapshot_۲۵-۰۴-۲۸_۰۸-۲۰-۰۰](https://github.com/user-attachments/assets/6df9d2c2-f220-4c44-854e-d74fcc67fc1e)
 
